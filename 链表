@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElementTYPE;
+struct Dnode{
+ElementTYPE data;
+struct Dnode *next,*prev;
+};
+typedef struct Dnode Dnode;
+typedef struct Dnode *Dlinklist;
+int initlist(Dlinklist &L){
+	L=(Dlinklist)malloc(sizeof(Dnode));
+	if(L==NULL)
+		return 0;
+	L->next=NULL;
+	L->prev=NULL;
+		return 1;
+}
+Dlinklist createlist(Dlinklist L,int n){
+		int x;
+		Dlinklist tail=L;
+	for(int i=0;i<n;i++){
+		Dlinklist s;
+		s=(Dlinklist)malloc(sizeof(Dnode));
+		scanf("%d",&x);
+		s->data=x;
+		tail->next=s;
+		s->prev=tail;
+		s->next=NULL;
+		tail=s;
+	}
+	return L;
+}
+void printflist(Dlinklist L){
+	Dlinklist p=L->next;
+	while(p!=NULL){
+		printf("%d",p->data);
+		p=p->next;
+		}
+	}
+Dlinklist deletelist(Dlinklist L,int i){
+		Dlinklist p=L;
+		int j=0;
+	while(p!=NULL&&j<i-1){
+		j++;
+		p=p->next;
+	}
+	if(p==NULL||p->next==NULL){
+		printf("删除值不合法\n");
+		return L;
+	}
+	Dlinklist q=p->next;
+	p->next=q->next;
+	if(q->next!=NULL){
+		q->next->prev=p;
+	}
+	free(q);
+	return L;
+}
+
+int main(){
+	Dlinklist L;
+	initlist(L);
+    createlist(L,5);
+	printflist(L);
+	printf("success\n");
+	printf("删除后\n");
+	deletelist(L,3);
+	printflist(L);
+	return 0;
+}
